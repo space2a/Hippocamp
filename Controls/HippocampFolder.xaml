@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="Re_Hippocamp.Controls.HippocampFolder"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Re_Hippocamp.Controls"
+             mc:Ignorable="d" Height="44" d:DesignWidth="485.047">
+    <Grid>
+        <Rectangle Fill="#19000000" RadiusX="3" RadiusY="3"></Rectangle>
+        <Image RenderOptions.BitmapScalingMode="HighQuality" Name="Img" Margin="10,8,0,8" Source="../Resources/Images/Folder.png" Stretch="Uniform" HorizontalAlignment="Left" Width="35"/>
+        <Label Cursor="Hand" MouseLeftButtonUp="FolderPath_MouseLeftButtonUp" Name="FolderPath" Style="{DynamicResource Montserrat}" Foreground="White" FontSize="11" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="50,0,153,-2">Folder path...</Label>
+        <Label Visibility="Hidden" Opacity="0.8" HorizontalAlignment="Right" Name="Discovered" Style="{DynamicResource Montserrat}" Foreground="White" FontSize="11" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" Margin="0,0,40,-2" Width="108">Discovered :</Label>
+        <local:HippocampButton x:Name="Delete" Opacity="0.6" Bin="True" Text="" Margin="0,10,10,9" HorizontalAlignment="Right" Width="25"/>
+    </Grid>
+</UserControl>

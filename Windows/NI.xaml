@@ -1,0 +1,210 @@
+﻿<Window
+    x:Class="Re_Hippocamp.Windows.NI"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Hippocamp Widget"
+    Width="373"
+    Height="124"
+    AllowsTransparency="True"
+    Background="{x:Null}"
+    Foreground="{x:Null}"
+    ResizeMode="NoResize"
+    ShowInTaskbar="False"
+    Topmost="True"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Grid>
+        <Border
+            Name="BG"
+            Margin="29,13,30,13"
+            Background="#FF4268BC"
+            CornerRadius="3"
+            MouseLeftButtonDown="BG_MouseLeftButtonDown"
+            Opacity="0.8">
+            <Border.Effect>
+                <DropShadowEffect
+                    BlurRadius="20"
+                    Opacity="0.32"
+                    ShadowDepth="2"
+                    Color="Black" />
+            </Border.Effect>
+        </Border>
+
+        <Label
+            Name="SLNOH"
+            Margin="0,23,0,26"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Panel.ZIndex="1000"
+            Cursor="Hand"
+            FontSize="17"
+            Foreground="White"
+            MouseLeftButtonUp="Label_MouseLeftButtonUp">
+            Start listening now on Hippocamp !
+        </Label>
+
+        <Grid
+            Name="StickGrid"
+            Margin="4,-1,-10,1"
+            MouseEnter="Grid_MouseEnter"
+            MouseLeave="Grid_MouseLeave"
+            MouseLeftButtonUp="StickGrid_MouseLeftButtonUp"
+            Opacity="0.2"
+            Visibility="Collapsed">
+            <Image
+                Margin="307,97,26,15"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                Source="/Resources/Images/StickEmpty.png" />
+            <Image
+                Name="Stick"
+                Margin="307,97,26,15"
+                Opacity="0.4"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                Source="/Resources/Images/StickFilled.png"
+                Visibility="Hidden" />
+        </Grid>
+
+        <Label
+            Height="22"
+            Margin="326,87,23,0"
+            VerticalAlignment="Top"
+            Cursor="Hand"
+            Foreground="White"
+            MouseLeftButtonDown="Label_MouseLeftButtonDown"
+            Opacity="0.5"
+            RenderTransformOrigin="0.5,0.5">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                    <SkewTransform />
+                    <RotateTransform />
+                    <TranslateTransform />
+                </TransformGroup>
+            </Label.RenderTransform>
+            ×
+        </Label>
+
+        <Grid Name="Controls">
+            <Rectangle
+                Name="SongCover"
+                Margin="35,18,250,18"
+                Fill="White"
+                RadiusX="3"
+                RadiusY="3"
+                RenderTransformOrigin="0.466,0.489" />
+            <Grid Margin="0,0,33,0" ClipToBounds="True">
+                <Label
+                    Name="PlayingNameSong"
+                    Height="34"
+                    Margin="123,0,0,28"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Top"
+                    Background="{x:Null}"
+                    FontFamily="MS PGothic"
+                    FontSize="22"
+                    Foreground="White">
+                    Song
+                </Label>
+                <Label
+                    Name="PlayingArtistSong"
+                    Height="35"
+                    Margin="123,0,0,10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"
+                    HorizontalContentAlignment="Left"
+                    VerticalContentAlignment="Top"
+                    FontFamily="Cascadia Code SemiLight"
+                    FontSize="15"
+                    FontWeight="UltraLight"
+                    Foreground="#99FFFFFF">
+                    ARTIST
+                </Label>
+
+            </Grid>
+
+            <StackPanel
+                Width="218"
+                Height="30"
+                Margin="124,23,0,71"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+                <Grid
+                    Name="ShuffleControl"
+                    Width="25"
+                    Height="25"
+                    Margin="15,0,0,0"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="ShuffleControl_MouseLeftButtonUp">
+                    <Image
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Source="/Resources/Images/Shuffle.png"
+                        Stretch="Uniform" />
+                    <Image
+                        Margin="8,20,8,-1"
+                        Opacity="0.8"
+                        Source="/Resources/Images/4Polygon.png" />
+                </Grid>
+                <Image
+                    Name="PlayPrecedentSongAlbum"
+                    Width="25"
+                    Height="25"
+                    Margin="15,0,0,0"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="PlayPrecedentSongAlbum_MouseLeftButtonUp"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    RenderTransformOrigin="0.5,0.5"
+                    Source="/Resources/Images/skip.png"
+                    Stretch="UniformToFill" />
+                <Grid
+                    Width="27"
+                    Height="27"
+                    Margin="15,0,0,0"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+                    <Image
+                        Name="PlayLogo"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Source="/Resources/Images/Play.png"
+                        Stretch="UniformToFill" />
+                    <Image
+                        Name="PauseLogo"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Source="/Resources/Images/Pause.png"
+                        Stretch="UniformToFill"
+                        Visibility="Hidden" />
+                </Grid>
+                <Image
+                    Name="NextSongAlbum"
+                    Width="25"
+                    Height="25"
+                    Margin="15,0,0,0"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="NextSongAlbum_MouseLeftButtonUp"
+                    RenderOptions.BitmapScalingMode="HighQuality"
+                    Source="/Resources/Images/skipr.png"
+                    Stretch="UniformToFill" />
+                <Grid
+                    Name="RepeatControl"
+                    Width="25"
+                    Height="25"
+                    Margin="15,0,15,0"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="RepeatControl_MouseLeftButtonUp">
+                    <Image
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Source="/Resources/Images/Repeat.png"
+                        Stretch="Uniform" />
+                    <Image
+                        Margin="8,20,8,-1"
+                        Opacity="0.8"
+                        Source="/Resources/Images/4Polygon.png" />
+                </Grid>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
+</Window>

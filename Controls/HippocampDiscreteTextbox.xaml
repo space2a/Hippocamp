@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="Re_Hippocamp.Controls.HippocampDiscreteTextbox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Re_Hippocamp.Controls" x:Name="root"
+             mc:Ignorable="d" Height="90">
+    <Grid>
+        <Rectangle Fill="#19000000" RadiusX="3" RadiusY="3"></Rectangle>
+        <Label  Name="L" Content="{Binding Title, ElementName=root}" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="25" Style="{DynamicResource Montserrat}" Margin="10,8,0,0"/>
+        <Rectangle Margin="10,45,10,14" Fill="#0CC3C3C3" RadiusX="3.43" RadiusY="3.43"></Rectangle>
+        <TextBox x:Name="TB" LostFocus="TextBox_LostFocus" GotFocus="TextBox_GotFocus"  Margin="10,45,10,0" Background="{x:Null}" FontSize="18" Style="{DynamicResource Montserrat}" BorderBrush="{x:Null}" BorderThickness="0" SelectionBrush="#FFBAC6D0" Foreground="White" Height="31" VerticalAlignment="Top" CaretBrush="White"/>
+        <Rectangle x:Name="R" Margin="10,72,10,0" Fill="#FFC3C3C3" Height="4" VerticalAlignment="Top"/>
+        <Label Visibility="Hidden" x:Name="MaxChars" Content="0/0" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontSize="22" Style="{DynamicResource Montserrat}" Margin="789,73,0,0"/>
+    </Grid>
+</UserControl>

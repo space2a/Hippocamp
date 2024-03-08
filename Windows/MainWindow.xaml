@@ -1,0 +1,1743 @@
+﻿<Window
+    x:Class="Re_Hippocamp.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Re_Hippocamp.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Name="window"
+    Title="Hippocamp"
+    Width="1010"
+    Height="654"
+    MinWidth="870"
+    MinHeight="600"
+    Activated="window_Activated"
+    AllowsTransparency="False"
+    Background="{x:Null}"
+    Deactivated="window_Deactivated"
+    Icon="/Resources/Images/HippocampLogo.png"
+    KeyDown="window_KeyDown"
+    KeyUp="window_KeyUp"
+    MouseDown="window_MouseDown"
+    ResizeMode="NoResize"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="SingleBorderWindow"
+    mc:Ignorable="d">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome
+            CaptionHeight="1"
+            CornerRadius="0"
+            GlassFrameThickness="0"
+            ResizeBorderThickness="4"
+            UseAeroCaptionButtons="False" />
+    </WindowChrome.WindowChrome>
+
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo>
+            <TaskbarItemInfo.ThumbButtonInfos>
+                <ThumbButtonInfoCollection>
+                    <ThumbButtonInfo Click="BringAppToViewThumbButtonInfo_Click" ImageSource="/Resources/HippocampLogo.ico" />
+                    <ThumbButtonInfo Click="PrecedentSongThumbButtonInfo_Click" ImageSource="/Resources/Images/skip.png" />
+                    <ThumbButtonInfo
+                        x:Name="ThumbPlayPause"
+                        Click="PlayPauseThumbButtonInfo_Click"
+                        ImageSource="/Resources/Images/PlayEmpty.png" />
+                    <ThumbButtonInfo Click="NextSongThumbButtonInfo_Click" ImageSource="/Resources/Images/skipr.png" />
+                    <ThumbButtonInfo
+                        x:Name="ThumbFavorite"
+                        Click="ThumbFavorite_Click"
+                        ImageSource="/Resources/Images/FavoriteEmptyThumb.png" />
+                </ThumbButtonInfoCollection>
+            </TaskbarItemInfo.ThumbButtonInfos>
+        </TaskbarItemInfo>
+    </Window.TaskbarItemInfo>
+
+    <Window.Resources>
+
+        <Style x:Key="Montserrat-Bold">
+            <Setter Property="TextElement.FontFamily" Value="Montserrat-Bold" />
+        </Style>
+
+        <Style x:Key="SliderRepeatButton" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="IsTabStop" Value="false" />
+            <Setter Property="Focusable" Value="false" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border
+                            Height="6"
+                            Margin="-1,0,1,0"
+                            Background="#19B1B1B1"
+                            BorderBrush="{x:Null}"
+                            CornerRadius="0,2,2,0" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderRepeatButton1" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Grid>
+                            <Border
+                                x:Name="S1"
+                                Height="8"
+                                Margin="0,0,-3,0"
+                                Background="#CC2E56B4"
+                                BorderBrush="White"
+                                CornerRadius="2"
+                                SnapsToDevicePixels="True">
+                                <Border.Effect>
+                                    <BlurEffect Radius="10" />
+                                </Border.Effect>
+                            </Border>
+                            <Border
+                                x:Name="S2"
+                                Height="6"
+                                Margin="0,0,-3,0"
+                                Background="#CC2E56B4"
+                                BorderBrush="White"
+                                CornerRadius="2"
+                                SnapsToDevicePixels="True" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="SliderThumb" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Rectangle
+                            Width="6"
+                            Height="6"
+                            Fill="#FFFEFEFE"
+                            RadiusX="1.407"
+                            RadiusY="1.407" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <ControlTemplate x:Key="Slider" TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Track Name="PART_Track" Grid.Row="1">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Command="Slider.DecreaseLarge" Style="{StaticResource SliderRepeatButton1}" />
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumb}" />
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Command="Slider.IncreaseLarge" Style="{StaticResource SliderRepeatButton}" />
+                    </Track.IncreaseRepeatButton>
+                </Track>
+            </Grid>
+        </ControlTemplate>
+
+        <Style x:Key="Horizontal_Slider" TargetType="Slider">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="SnapsToDevicePixels" Value="true" />
+            <Setter Property="OverridesDefaultStyle" Value="true" />
+            <Style.Triggers>
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="MinHeight" Value="21" />
+                    <Setter Property="MinWidth" Value="104" />
+                    <Setter Property="Template" Value="{StaticResource Slider}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+
+        <Grid Name="MGrid" Margin="0">
+
+            <!--  Global UI  -->
+
+            <Border
+                Name="MaximizeZone"
+                Height="37"
+                VerticalAlignment="Top"
+                Panel.ZIndex="1"
+                Background="Transparent"
+                CornerRadius="18,18,0,0"
+                MouseLeftButtonDown="MaximizeZone_MouseLeftButtonDown"
+                Opacity="0.8" />
+
+            <Grid
+                Name="Controls"
+                Width="289"
+                Height="98"
+                Margin="0,-24,-91,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Panel.ZIndex="100000"
+                RenderTransformOrigin="0.5,0.5">
+                <Grid.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform ScaleX="0.3" ScaleY="0.3" />
+                        <SkewTransform />
+                        <RotateTransform />
+                        <TranslateTransform />
+                    </TransformGroup>
+                </Grid.RenderTransform>
+
+                <Rectangle
+                    Margin="38,-6,-4,33"
+                    Fill="#11C8C8C8"
+                    RadiusX="12.222"
+                    RadiusY="12.222" />
+
+                <Grid
+                    Name="CloseGrid"
+                    Margin="212,0,8,40"
+                    Panel.ZIndex="1000"
+                    Background="#00000000"
+                    Cursor="Hand"
+                    MouseEnter="ControlGrid_MouseEnter"
+                    MouseLeave="ControlGrid_MouseLeave"
+                    MouseLeftButtonDown="CloseGrid_MouseLeftButtonDown" />
+                <Grid
+                    Name="MaximizeGrid"
+                    Margin="135,1,85,39"
+                    Panel.ZIndex="1000"
+                    Background="#00000000"
+                    Cursor="Hand"
+                    MouseEnter="ControlGrid_MouseEnter"
+                    MouseLeave="ControlGrid_MouseLeave"
+                    MouseLeftButtonDown="MaximizeGrid_MouseLeftButtonDown" />
+                <Grid
+                    Name="MinimizeGrid"
+                    Margin="53,0,172,44"
+                    Panel.ZIndex="1000"
+                    Background="#00000000"
+                    Cursor="Hand"
+                    MouseEnter="ControlGrid_MouseEnter"
+                    MouseLeave="ControlGrid_MouseLeave"
+                    MouseLeftButtonDown="MinimizeGrid_MouseLeftButtonDown" />
+                <Image
+                    Name="CloseBigPlayer"
+                    Margin="-27,0,252,44"
+                    Panel.ZIndex="1000"
+                    Cursor="Hand"
+                    MouseLeftButtonDown="CloseBigPlayer_MouseLeftButtonDown"
+                    Opacity="0"
+                    RenderTransformOrigin="0.5,0.5"
+                    Source="/Resources/Images/BigPlayer.png"
+                    Visibility="Hidden">
+                    <Image.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform />
+                            <SkewTransform />
+                            <RotateTransform Angle="180" />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Image.RenderTransform>
+                </Image>
+
+                <Grid Name="CloseGri" Opacity="0.5">
+                    <Rectangle
+                        Margin="209,24,4,64"
+                        Fill="White"
+                        RadiusX="4"
+                        RadiusY="4"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="45.482" />
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <Rectangle
+                        Margin="209,24,4,64"
+                        Fill="#FFFFFFFF"
+                        RadiusX="4"
+                        RadiusY="4"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <RotateTransform Angle="-45.482" />
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </Grid>
+                <Rectangle
+                    Name="MinimizeRec"
+                    Margin="53,23,172,63"
+                    Fill="#FFFFFFFF"
+                    Opacity="0.5"
+                    RadiusX="4"
+                    RadiusY="4"
+                    RenderTransformOrigin="0.5,0.5" />
+                <Border
+                    Name="MaximizeBor"
+                    Margin="139,6,89,44"
+                    BorderBrush="#FFFFFFFF"
+                    BorderThickness="10"
+                    CornerRadius="4"
+                    Opacity="0.5"
+                    RenderTransformOrigin="0.5,0.5"
+                    Visibility="Visible" />
+            </Grid>
+
+            <Grid Name="All" Margin="0,0,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition
+                        Width="195"
+                        MinWidth="73"
+                        MaxWidth="195" />
+                    <ColumnDefinition Width="5" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid
+                    Name="SideBarGridTotal"
+                    Grid.ColumnSpan="2"
+                    Margin="0"
+                    Panel.ZIndex="100"
+                    FocusVisualStyle="{x:Null}"
+                    RenderTransformOrigin="0.5,0.5"
+                    Visibility="Visible">
+                    <!--  SIDEBAR  -->
+                    <Border
+                        Name="SideBar"
+                        Margin="0,0,0,0"
+                        Background="#FF191A1B"
+                        CornerRadius="3, 0, 0, 3"
+                        Opacity="0.95" />
+
+                    <Viewbox
+                        MinWidth="125"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        SizeChanged="ViewboxSideBar_SizeChanged">
+                        <Grid Width="206" Height="114">
+                            <Rectangle
+                                Width="83"
+                                Height="83"
+                                Margin="65,22,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Fill="#FF4C78D9"
+                                Opacity="0.7"
+                                RenderOptions.BitmapScalingMode="HighQuality">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/Resources/Images/Neptune.png" />
+                                </Rectangle.OpacityMask>
+                                <Rectangle.Effect>
+                                    <BlurEffect Radius="20" />
+                                </Rectangle.Effect>
+                            </Rectangle>
+
+                            <Rectangle
+                                Width="83"
+                                Height="84"
+                                Margin="65,20.5,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Fill="#FF4C78D9"
+                                Opacity="1"
+                                RenderOptions.BitmapScalingMode="HighQuality">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/Resources/Images/Neptune.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+                            <Rectangle
+                                Width="83"
+                                Height="84"
+                                Margin="65,20.5,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Top"
+                                Fill="#FF2B437A"
+                                Opacity="1"
+                                RenderOptions.BitmapScalingMode="HighQuality">
+                                <Rectangle.OpacityMask>
+                                    <ImageBrush ImageSource="/Resources/Images/NeptuneShadow.png" />
+                                </Rectangle.OpacityMask>
+                            </Rectangle>
+
+                            <Grid Name="HippocampHippocampTitle" Visibility="Hidden">
+                                <Image
+                                    Width="83"
+                                    Height="78"
+                                    Margin="65,22,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Opacity="0.7"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Source="/Resources/Images/Hippocamp.png">
+                                    <Image.Effect>
+                                        <BlurEffect Radius="10" />
+                                    </Image.Effect>
+                                </Image>
+                                <Image
+                                    Width="83"
+                                    Height="78"
+                                    Margin="65,23,0,0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Opacity="0.8"
+                                    RenderOptions.BitmapScalingMode="HighQuality"
+                                    Source="/Resources/Images/Hippocamp.png">
+                                    <Image.Effect>
+                                        <DropShadowEffect Opacity="0.2" ShadowDepth="4" />
+                                    </Image.Effect>
+                                </Image>
+                            </Grid>
+
+                            <Image
+                                Name="LabelHippocampTitle"
+                                Margin="1,17,-1,10"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Source="/Windows/LogoTransparent.png" />
+                        </Grid>
+                    </Viewbox>
+
+                    <Grid Name="FakeSideBarGrid" Margin="9,150,-22,-54">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                                <SkewTransform />
+                                <RotateTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Grid
+                            Name="TabRectangle"
+                            Margin="0,0,9,0"
+                            ClipToBounds="False">
+                            <Border
+                                Height="45"
+                                Margin="-11,10,10,0"
+                                VerticalAlignment="Top"
+                                Background="#CC2E56B7"
+                                CornerRadius="0,2,2,0">
+                                <Border.Effect>
+                                    <BlurEffect Radius="10" />
+                                </Border.Effect>
+                            </Border>
+                            <Border
+                                Height="45"
+                                Margin="-11,10,10,0"
+                                VerticalAlignment="Top"
+                                Background="#CC2E56B7"
+                                CornerRadius="0,2,2,0">
+                                <Border.Effect>
+                                    <DropShadowEffect
+                                        BlurRadius="20"
+                                        Opacity="0.2"
+                                        ShadowDepth="2"
+                                        Color="Black" />
+                                </Border.Effect>
+                            </Border>
+                        </Grid>
+
+                        <StackPanel
+                            Name="SideBarSP"
+                            Height="231"
+                            Margin="-5,2,0,0"
+                            VerticalAlignment="Top">
+                            <Grid
+                                Name="Home"
+                                Height="40"
+                                Margin="10,10,10,2.5"
+                                Background="Transparent"
+                                Cursor="Hand"
+                                MouseEnter="SideBarGrid_MouseEnter"
+                                MouseLeave="SideBarGrid_MouseLeave"
+                                MouseLeftButtonDown="SideBarGrid_MouseLeftButtonDown"
+                                Tag="HomePage">
+                                <Label
+                                    Margin="59,1,0,-3"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    FontSize="18"
+                                    Foreground="White"
+                                    Style="{DynamicResource Montserrat}">
+                                    Home
+                                </Label>
+                                <Image
+                                    Width="35"
+                                    Margin="10,1,0,-1"
+                                    HorizontalAlignment="Left"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/Resources/Images/HomeEmpty.png" />
+                                <Image
+                                    Width="35"
+                                    Margin="10,1,0,-1"
+                                    HorizontalAlignment="Left"
+                                    Opacity="0.4"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/Resources/Images/HomeFilled.png" />
+                            </Grid>
+
+                            <Grid
+                                Name="Library"
+                                Height="40"
+                                Margin="10,10,10,2.5"
+                                Background="Transparent"
+                                Cursor="Hand"
+                                MouseEnter="SideBarGrid_MouseEnter"
+                                MouseLeave="SideBarGrid_MouseLeave"
+                                MouseLeftButtonDown="SideBarGrid_MouseLeftButtonDown"
+                                Tag="CollectionPage">
+                                <Label
+                                    Margin="59,1,0,-3"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    FontSize="18"
+                                    Foreground="White"
+                                    Style="{DynamicResource Montserrat}">
+                                    Collection
+                                </Label>
+                                <Image
+                                    Width="38"
+                                    Margin="8,1,0,-1"
+                                    HorizontalAlignment="Left"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/Resources/Images/CollectionEmpty.png" />
+                                <Image
+                                    Width="38"
+                                    Margin="8,1,0,-1"
+                                    HorizontalAlignment="Left"
+                                    Opacity="0.4"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/Resources/Images/CollectionFilled.png" />
+                            </Grid>
+
+                            <Grid
+                                Name="FakePageTab"
+                                Height="0"
+                                Margin="10,15,10,2.5" />
+
+
+                            <Grid
+                                Name="CreatePlayList"
+                                Height="40"
+                                Margin="10,10,10,2.5"
+                                Background="Transparent"
+                                Cursor="Hand"
+                                MouseEnter="SideBarGrid_MouseEnter"
+                                MouseLeave="SideBarGrid_MouseLeave"
+                                MouseLeftButtonDown="SideBarGrid_MouseLeftButtonDown"
+                                Tag="NewPlaylist">
+                                <Label
+                                    Margin="59,1,0,-3"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    FontSize="18"
+                                    Foreground="White"
+                                    Style="{DynamicResource Montserrat}">
+                                    New playlist
+                                </Label>
+                                <Image
+                                    Width="38"
+                                    Margin="8,1,0,-1"
+                                    HorizontalAlignment="Left"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/Resources/Images/Add.png" />
+                                <Image
+                                    Width="38"
+                                    Margin="8,1,0,-1"
+                                    HorizontalAlignment="Left"
+                                    Opacity="0.4"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/Resources/Images/Add.png" />
+                            </Grid>
+
+                            <Grid
+                                Name="Likes"
+                                Height="40"
+                                Margin="10,10,10,2.5"
+                                Background="Transparent"
+                                Cursor="Hand"
+                                MouseEnter="SideBarGrid_MouseEnter"
+                                MouseLeave="SideBarGrid_MouseLeave"
+                                MouseLeftButtonDown="SideBarGrid_MouseLeftButtonDown"
+                                Tag="LikePage">
+                                <Label
+                                    Margin="59,1,0,-3"
+                                    HorizontalContentAlignment="Left"
+                                    VerticalContentAlignment="Center"
+                                    FontSize="18"
+                                    Foreground="White"
+                                    Style="{DynamicResource Montserrat}">
+                                    Likes
+                                </Label>
+                                <Image
+                                    Width="38"
+                                    Margin="8,1,0,-1"
+                                    HorizontalAlignment="Left"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/Resources/Images/FavoriteEmpty.png" />
+                                <Image
+                                    Width="38"
+                                    Margin="8,1,0,-1"
+                                    HorizontalAlignment="Left"
+                                    Opacity="0.4"
+                                    RenderOptions.BitmapScalingMode="Fant"
+                                    Source="/Resources/Images/FavoriteFilled.png" />
+                            </Grid>
+
+                            <Rectangle
+                                Name="SideBarSeparator"
+                                Width="180"
+                                Height="2"
+                                Margin="0,15,0,15"
+                                Fill="White"
+                                Opacity="0.4"
+                                RadiusX="0.37"
+                                RadiusY="0.37"
+                                Visibility="Hidden" />
+                        </StackPanel>
+
+                        <ScrollViewer Margin="-7,234,0,0">
+                            <StackPanel Name="PlaylistsSidebarSP" />
+                        </ScrollViewer>
+                    </Grid>
+                </Grid>
+
+
+                <GridSplitter
+                    Grid.Column="1"
+                    Margin="0,-1,0,1"
+                    HorizontalAlignment="Stretch"
+                    Panel.ZIndex="1000"
+                    Background="Transparent"
+                    FocusVisualStyle="{x:Null}" />
+
+                <!--  Pages  -->
+                <Grid
+                    Name="GridPages"
+                    Grid.Column="2"
+                    Margin="0,0,0,0"
+                    ClipToBounds="False"
+                    Visibility="Visible">
+
+                    <Border
+                        Name="AppBackground"
+                        Background="#FF141519"
+                        CornerRadius="0,3,3,0"
+                        MouseLeftButtonDown="AppBackground_MouseLeftButtonDown"
+                        Opacity="0.97" />
+
+
+                    <!--  HomePage  -->
+
+                    <Grid Name="PageContainer" />
+
+                    <!--  AlbumPage  -->
+
+
+                    <!--  End AlbumPage  -->
+                    <Grid
+                        Width="114"
+                        Height="38"
+                        Margin="0,30,22,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Cursor="Hand"
+                        MouseEnter="AvatarItemEnter"
+                        MouseLeave="AvatarItemLeave"
+                        MouseLeftButtonUp="AvatarGrid_MouseLeftButtonUp"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="1.2" ScaleY="1.2" />
+                                <SkewTransform />
+                                <RotateTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Rectangle
+                            Width="114"
+                            Height="26"
+                            Margin="0,6,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Cursor="Hand"
+                            Fill="#11C8C8C8"
+                            Opacity="1"
+                            RadiusX="3"
+                            RadiusY="3" />
+                        <Label
+                            Name="Username"
+                            Height="26"
+                            Margin="0,0,1,0"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Foreground="White"
+                            Style="{DynamicResource Montserrat}">
+                            Username here
+                        </Label>
+                        <Rectangle
+                            Name="CurrentProfileAvatar"
+                            Width="24"
+                            Height="24"
+                            Margin="89,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Cursor="Hand"
+                            Fill="#FFA03636"
+                            Opacity="1"
+                            RadiusX="3"
+                            RadiusY="3"
+                            RenderOptions.BitmapScalingMode="Fant"
+                            RenderTransformOrigin="0.5,0.5" />
+                    </Grid>
+
+                </Grid>
+
+                <!--  End Pages  -->
+
+            </Grid>
+
+            <!--  Player  -->
+
+
+            <Grid
+                Name="PlayerMediaGrid"
+                Height="63"
+                VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="207" MaxWidth="300" />
+                    <ColumnDefinition Width="7" MaxWidth="7" />
+                    <ColumnDefinition Width="78*" />
+                    <ColumnDefinition Width="678*" />
+                </Grid.ColumnDefinitions>
+                <Border
+                    Name="PlayerBarBottom"
+                    Grid.ColumnSpan="4"
+                    Height="63"
+                    VerticalAlignment="Center"
+                    Background="#FF0F0F0F"
+                    CornerRadius="0,0,3,3"
+                    Opacity="0.975" />
+
+                <StackPanel
+                    Grid.ColumnSpan="2"
+                    Width="217"
+                    Margin="-5,0,0,0"
+                    HorizontalAlignment="Left"
+                    Cursor="Hand"
+                    Orientation="Horizontal"
+                    RenderTransformOrigin="0.5,0.5">
+                    <StackPanel.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </StackPanel.RenderTransform>
+                    <Grid
+                        Name="ShuffleControl"
+                        Width="25"
+                        Height="25"
+                        Margin="15,0,0,0"
+                        MouseLeftButtonUp="ShuffleControl_MouseLeftButtonUp"
+                        Opacity="0.65">
+                        <Image
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/Images/Shuffle.png"
+                            Stretch="Uniform" />
+                        <Image
+                            Margin="8,21,8,-2"
+                            Opacity="0.8"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/Images/4Polygon.png" />
+                    </Grid>
+                    <Image
+                        Name="PlayPrecedentSongAlbum"
+                        Width="25"
+                        Height="25"
+                        Margin="15,0,0,0"
+                        MouseLeftButtonUp="PlayPrecedentSongAlbum_MouseLeftButtonUp"
+                        Opacity="0.75"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        RenderTransformOrigin="0.5,0.5"
+                        Source="/Resources/Images/skip.png"
+                        Stretch="UniformToFill" />
+                    <Grid
+                        Width="27"
+                        Height="27"
+                        Margin="15,0,0,0"
+                        MouseLeftButtonUp="PlayerPausePlay_MouseLeftButtonUp">
+                        <Image
+                            Name="PlayLogo"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/Images/Play.png"
+                            Stretch="UniformToFill" />
+                        <Image
+                            Name="PauseLogo"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/Images/Pause.png"
+                            Stretch="UniformToFill"
+                            Visibility="Hidden" />
+                    </Grid>
+                    <Image
+                        Name="NextSongAlbum"
+                        Width="25"
+                        Height="25"
+                        Margin="15,0,0,0"
+                        MouseLeftButtonUp="NextSongAlbum_MouseLeftButtonUp"
+                        Opacity="0.75"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Source="/Resources/Images/skipr.png"
+                        Stretch="UniformToFill" />
+                    <Grid
+                        Name="RepeatControl"
+                        Width="25"
+                        Height="25"
+                        Margin="15,0,15,0"
+                        MouseLeftButtonUp="RepeatControl_MouseLeftButtonUp"
+                        Opacity="0.65">
+                        <Image
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/Images/Repeat.png"
+                            Stretch="Uniform" />
+                        <Image
+                            Margin="8,21,8,-2"
+                            Opacity="0.8"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/Images/4Polygon.png" />
+                    </Grid>
+                </StackPanel>
+
+                <Grid
+                    Name="FavHeartGrid"
+                    Grid.Column="2"
+                    Width="34"
+                    HorizontalAlignment="Left"
+                    RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+
+                    <Rectangle
+                        Width="24"
+                        Height="23"
+                        Margin="0,20,0,20"
+                        HorizontalAlignment="Center"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="Favorite_MouseLeftButtonUp"
+                        RenderOptions.BitmapScalingMode="HighQuality">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="/Resources/Images/FavoriteEmpty.png" Stretch="Uniform" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+                    <Rectangle
+                        Name="FilledFav"
+                        Width="22"
+                        Height="23"
+                        Margin="0,20,0,20"
+                        HorizontalAlignment="Center"
+                        Cursor="Hand"
+                        MouseLeftButtonUp="Favorite_MouseLeftButtonUp"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        Visibility="Hidden">
+                        <Rectangle.Fill>
+                            <ImageBrush ImageSource="/Resources/Images/FavoriteFilled.png" Stretch="Uniform" />
+                        </Rectangle.Fill>
+                    </Rectangle>
+
+                    <Grid
+                        Name="FavAnim"
+                        Width="46"
+                        HorizontalAlignment="Center"
+                        Visibility="Hidden">
+                        <Rectangle
+                            Fill="#FFFEFFF7"
+                            Opacity="0.3"
+                            RenderOptions.BitmapScalingMode="HighQuality">
+                            <Rectangle.Effect>
+                                <BlurEffect />
+                            </Rectangle.Effect>
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="/Resources/Images/FavoriteAnim.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                        <Rectangle Fill="#FFFEFFFF" RenderOptions.BitmapScalingMode="HighQuality">
+                            <Rectangle.OpacityMask>
+                                <ImageBrush ImageSource="/Resources/Images/FavoriteAnim.png" Stretch="Uniform" />
+                            </Rectangle.OpacityMask>
+                        </Rectangle>
+                    </Grid>
+                </Grid>
+
+                <Rectangle
+                    Name="SongCoverBlur"
+                    Grid.Column="3"
+                    Width="42"
+                    Margin="2,9,0,10"
+                    HorizontalAlignment="Left"
+                    Fill="Red"
+                    Opacity="0.3"
+                    RadiusX="2.833"
+                    RadiusY="2.833">
+                    <Rectangle.Effect>
+                        <BlurEffect />
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Rectangle
+                    Grid.Column="3"
+                    Width="42"
+                    Margin="2,9,0,10"
+                    HorizontalAlignment="Left"
+                    Fill="#FF1B1B1B"
+                    MouseEnter="Grid_MouseEnter"
+                    MouseLeave="Grid_MouseLeave"
+                    RadiusX="2.833"
+                    RadiusY="2.833" />
+                <Rectangle
+                    Name="SongCover"
+                    Grid.Column="3"
+                    Width="42"
+                    Margin="2,9,0,10"
+                    HorizontalAlignment="Left"
+                    Fill="#FF03FFF9"
+                    MouseEnter="Grid_MouseEnter"
+                    MouseLeave="Grid_MouseLeave"
+                    RadiusX="2.833"
+                    RadiusY="2.833" />
+
+                <Grid
+                    Name="BigPlayerIcon"
+                    Grid.Column="3"
+                    Width="42"
+                    Margin="2,9,0,10"
+                    HorizontalAlignment="Left"
+                    Panel.ZIndex="1"
+                    Background="#02FF0000"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="BigPlayerIcon_MouseLeftButtonUp">
+                    <Border
+                        Margin="25,0,0,27"
+                        Background="#4C000000"
+                        CornerRadius="4,2,4,4"
+                        Cursor="Hand" />
+                    <Image
+                        Margin="28,2,2,30"
+                        Opacity="0.8"
+                        Source="/Resources/Images/BigPlayer.png" />
+                </Grid>
+
+                <StackPanel
+                    Grid.Column="3"
+                    Height="26"
+                    Margin="0,0,42,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    ClipToBounds="False"
+                    FocusVisualStyle="{x:Null}"
+                    Orientation="Horizontal">
+                    <Grid
+                        Height="34"
+                        MinWidth="94"
+                        MaxWidth="140">
+                        <TextBlock
+                            x:Name="PlayingNameSong"
+                            Margin="0,-2,0,-2"
+                            Cursor="Hand"
+                            FontSize="15"
+                            FontWeight="Normal"
+                            Foreground="#FFFEFEFE"
+                            MouseEnter="PlayingNameSong_MouseEnter"
+                            MouseLeave="PlayingNameSong_MouseLeave"
+                            MouseLeftButtonUp="PlayingNameSong_MouseLeftButtonUp"
+                            Style="{DynamicResource Montserrat}"
+                            Text="Song"
+                            TextTrimming="CharacterEllipsis" />
+                        <TextBlock
+                            x:Name="PlayingArtistSong"
+                            Margin="0,13,0,0"
+                            VerticalAlignment="Top"
+                            Cursor="Hand"
+                            FontSize="11"
+                            Foreground="#FFFEFEFE"
+                            MouseEnter="PlayingNameSong_MouseEnter"
+                            MouseLeave="PlayingNameSong_MouseLeave"
+                            MouseLeftButtonUp="PlayingNameSong_MouseLeftButtonUp"
+                            Opacity="0.5"
+                            Style="{DynamicResource Montserrat}"
+                            Text="ARTIST"
+                            TextTrimming="CharacterEllipsis" />
+                    </Grid>
+                    <Label
+                        x:Name="SongPosition"
+                        Width="35"
+                        Height="28"
+                        Margin="0,0.5,0,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        VerticalContentAlignment="Center"
+                        Background="{x:Null}"
+                        Content="0:00"
+                        FontFamily="Bahnschrift"
+                        FontSize="12"
+                        Foreground="#CCFEFEFE"
+                        Opacity="0.7" />
+
+                    <Slider
+                        x:Name="MediaSlider"
+                        Width="416"
+                        Height="22"
+                        MaxWidth="600"
+                        Margin="0,3,0,0"
+                        VerticalAlignment="Top"
+                        AutoToolTipPlacement="None"
+                        IsMoveToPointEnabled="True"
+                        Maximum="10"
+                        Minimum="0.8"
+                        MouseMove="SoundSlider_MouseMove"
+                        Orientation="Horizontal"
+                        RenderTransformOrigin="0.5,0.5"
+                        Style="{StaticResource Horizontal_Slider}"
+                        ValueChanged="MediaSlider_ValueChanged"
+                        Value="1" />
+
+                    <Label
+                        x:Name="SongDuration"
+                        Width="35"
+                        Height="28"
+                        Margin="0,0.5,0,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Center"
+                        Background="{x:Null}"
+                        Content="0:00"
+                        FontFamily="Bahnschrift"
+                        FontSize="12"
+                        Foreground="#CCFEFEFE"
+                        Opacity="0.7" />
+
+                </StackPanel>
+
+
+                <Grid
+                    Grid.Column="2"
+                    Grid.ColumnSpan="2"
+                    Width="160"
+                    Margin="27,0,0,0"
+                    HorizontalAlignment="Left"
+                    MouseEnter="SoundIcon_MouseEnter"
+                    MouseLeave="SoundIcon_MouseLeave"
+                    RenderTransformOrigin="0.5,0.5">
+                    <Grid.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleX="0.9" ScaleY="0.9" />
+                            <SkewTransform />
+                            <RotateTransform />
+                            <TranslateTransform />
+                        </TransformGroup>
+                    </Grid.RenderTransform>
+
+
+                    <Image
+                        Name="SoundIcon"
+                        Width="35"
+                        Height="23"
+                        Margin="1,0,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Center"
+                        MouseLeftButtonUp="Sound_MouseLeftButtonUp"
+                        RenderOptions.BitmapScalingMode="HighQuality"
+                        RenderTransformOrigin="0.5,0.5"
+                        Source="/Resources/Images/Speaker.png"
+                        Stretch="Uniform">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="0.9" />
+                                <SkewTransform />
+                                <RotateTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Grid
+                        Name="SoundLevel"
+                        Width="141"
+                        Margin="0,22,0,20"
+                        HorizontalAlignment="Left"
+                        Background="Transparent"
+                        MouseWheel="SoundSlider_MouseWheel"
+                        Visibility="Visible">
+                        <Rectangle
+                            Width="113"
+                            Height="14"
+                            Margin="27,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Fill="#E5000000"
+                            RadiusX="1.704"
+                            RadiusY="1.704" />
+                        <Slider
+                            Name="SoundSlider"
+                            Width="110"
+                            Height="21"
+                            MaxWidth="100"
+                            Margin="30,0,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            AutoToolTipPlacement="None"
+                            IsMoveToPointEnabled="True"
+                            Maximum="8"
+                            Minimum="0"
+                            MouseMove="SoundSlider_MouseMove"
+                            Orientation="Horizontal"
+                            RenderTransformOrigin="0.5,0.5"
+                            Style="{StaticResource Horizontal_Slider}"
+                            ValueChanged="SoundSlider_ValueChanged"
+                            Value="10">
+                            <Slider.RenderTransform>
+                                <TransformGroup>
+                                    <ScaleTransform ScaleY="1.2" />
+                                    <SkewTransform />
+                                    <RotateTransform />
+                                    <TranslateTransform />
+                                </TransformGroup>
+                            </Slider.RenderTransform>
+                        </Slider>
+                    </Grid>
+                </Grid>
+            </Grid>
+
+            <!--  End Player  -->
+
+
+            <!--  UserList  -->
+
+            <ScrollViewer
+                x:Name="AvatarList"
+                Width="124"
+                Height="275"
+                Margin="0,60,0,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Panel.ZIndex="100"
+                FocusVisualStyle="{x:Null}"
+                HorizontalScrollBarVisibility="Disabled"
+                RenderTransformOrigin="0.5,0.5"
+                VerticalScrollBarVisibility="Hidden"
+                Visibility="Visible">
+                <StackPanel
+                    Name="SPUserList"
+                    Width="104"
+                    FocusVisualStyle="{x:Null}"
+                    RenderTransformOrigin="0.5,0.5">
+                    <Grid
+                        Margin="0,0,0,0"
+                        HorizontalAlignment="Right"
+                        Cursor="Hand"
+                        MouseEnter="AvatarItemEnter"
+                        MouseLeave="AvatarItemLeave"
+                        MouseLeftButtonUp="AvatarGrid_MouseLeftButtonDown">
+                        <Rectangle
+                            Width="104"
+                            Height="26"
+                            Margin="0,7,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Cursor="Hand"
+                            Fill="#11C8C8C8"
+                            Opacity="1"
+                            RadiusX="3"
+                            RadiusY="3" />
+                        <Rectangle
+                            Width="24"
+                            Height="24"
+                            Margin="79,8,0,0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Cursor="Hand"
+                            Opacity="1"
+                            RadiusX="3"
+                            RadiusY="3"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            RenderTransformOrigin="0.5,0.5">
+                            <Rectangle.Fill>
+                                <ImageBrush ImageSource="/Resources/Images/Avatar.png" Stretch="Fill" />
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Label
+                            Margin="0,6,0,0"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Foreground="White"
+                            Style="{DynamicResource Montserrat}">
+                            Profiles
+                        </Label>
+                    </Grid>
+                    <Grid
+                        HorizontalAlignment="Right"
+                        Cursor="Hand"
+                        MouseEnter="AvatarItemEnter"
+                        MouseLeave="AvatarItemLeave"
+                        MouseLeftButtonUp="Settings_MouseLeftButtonUp">
+                        <Rectangle
+                            Width="104"
+                            Height="26"
+                            Margin="0,2,0,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Fill="#11C8C8C8"
+                            Opacity="1"
+                            RadiusX="3"
+                            RadiusY="3" />
+                        <Image
+                            Width="24"
+                            Height="24"
+                            Margin="0,0,2,6"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            Panel.ZIndex="100"
+                            Cursor="Hand"
+                            Opacity="1"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/Images/Settings.png" />
+                        <Label
+                            Margin="0,1,0,5"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            FontSize="14"
+                            Foreground="White"
+                            Style="{DynamicResource Montserrat}">
+                            Settings
+                        </Label>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!--  End UserList  -->
+
+            <!--  Notifications  -->
+
+            <StackPanel
+                Name="NotificationSP"
+                Width="187"
+                Margin="0,0,0,20"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom" />
+
+            <!--  End Notifications  -->
+
+
+            <!--  PopUpPages  -->
+
+
+
+            <Grid
+                Name="PUP"
+                Panel.ZIndex="101"
+                Visibility="Hidden">
+                <Rectangle
+                    Margin="35.1"
+                    Fill="#FF28292D"
+                    MouseLeftButtonDown="AppBackground_MouseLeftButtonDown"
+                    Opacity="0.99"
+                    RadiusX="3"
+                    RadiusY="3">
+                    <Rectangle.Effect>
+                        <DropShadowEffect
+                            BlurRadius="20"
+                            Opacity="0.2"
+                            ShadowDepth="2"
+                            Color="Black" />
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Grid
+                    Name="ClosePUPGrid"
+                    Width="26"
+                    Height="25"
+                    Margin="0,35,35,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Cursor="Hand"
+                    MouseLeftButtonUp="ClosePUP_MouseLeftButtonUp">
+                    <Border
+                        Width="26"
+                        Height="25"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        Background="#7FF70000"
+                        CornerRadius="0,3,0,3" />
+                    <Rectangle
+                        Margin="12,2,11,3"
+                        Fill="#FFDDB8B9"
+                        RadiusX="0.91"
+                        RadiusY="0.91"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform />
+                                <RotateTransform Angle="45" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                    <Rectangle
+                        Margin="12,2,11,3"
+                        Fill="#FFDDB8B9"
+                        RadiusX="0.91"
+                        RadiusY="0.91"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Rectangle.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform />
+                                <SkewTransform />
+                                <RotateTransform Angle="-45" />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Rectangle.RenderTransform>
+                    </Rectangle>
+                </Grid>
+            </Grid>
+
+            <!--  End PopUpPages  -->
+
+            <!--  BigPlayer  -->
+
+            <Grid
+                Name="BigPlayerGrid"
+                Panel.ZIndex="10000"
+                MouseWheel="BigPlayerGrid_MouseWheel"
+                Visibility="Hidden">
+
+
+                <Rectangle
+                    Name="BPAlbumBGB"
+                    Fill="Black"
+                    Opacity="0.8"
+                    RadiusX="3"
+                    RadiusY="3">
+                    <Rectangle.Effect>
+                        <BlurEffect Radius="10" />
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Rectangle
+                    Name="BPAlbumBG"
+                    Fill="Black"
+                    Opacity="0"
+                    RadiusX="3"
+                    RadiusY="3">
+                    <Rectangle.Effect>
+                        <BlurEffect Radius="15" />
+                    </Rectangle.Effect>
+                </Rectangle>
+
+                <Rectangle
+                    Fill="Black"
+                    MouseLeftButtonDown="AppBackground_MouseLeftButtonDown"
+                    Opacity="0.1"
+                    RadiusX="3"
+                    RadiusY="3" />
+                <Grid Name="BigPlayerCovers" ClipToBounds="True">
+
+                    <Border
+                        Name="BPAlbum"
+                        Width="396"
+                        Height="398"
+                        Margin="51,84,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#FFB1AC30"
+                        CornerRadius="2,2,0,0" />
+                    <Border
+                        Name="BPAlbumB"
+                        Width="396"
+                        Height="398"
+                        Margin="51,84,0,0"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Top"
+                        Background="#FFEAE21E"
+                        CornerRadius="2,25,0,0"
+                        Opacity="0">
+                        <Border.Effect>
+                            <BlurEffect Radius="20" />
+                        </Border.Effect>
+                    </Border>
+                    <Border
+                        Name="BPAlbumRevert"
+                        Width="396"
+                        Margin="51,482,0,-279"
+                        HorizontalAlignment="Left"
+                        Background="#FFB1AC30"
+                        CornerRadius="10,10,0,0"
+                        Opacity="0.8"
+                        RenderTransformOrigin="0.5,0.5">
+                        <Border.OpacityMask>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Offset="0.664" Color="#00000000" />
+                                <GradientStop Offset="0.699" Color="White" />
+                            </LinearGradientBrush>
+                        </Border.OpacityMask>
+                        <Border.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleY="-1" />
+                                <SkewTransform />
+                                <RotateTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Border.RenderTransform>
+                    </Border>
+                </Grid>
+
+                <Grid
+                    Width="968"
+                    Height="610"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Bottom">
+                    <StackPanel
+                        Margin="644,492,0,80"
+                        HorizontalAlignment="Left"
+                        Orientation="Horizontal">
+                        <Image
+                            Name="PlayPrecedentSongAlbumBP"
+                            Width="35"
+                            Height="35"
+                            Margin="0,0,0,0"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="PlayPrecedentSongAlbum_MouseLeftButtonUp"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            RenderTransformOrigin="0.5,0.5"
+                            Source="/Resources/Images/skip.png"
+                            Stretch="UniformToFill" />
+                        <Grid
+                            Width="35"
+                            Height="35"
+                            Margin="15,0,0,0"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="PlayerPausePlay_MouseLeftButtonUp">
+                            <Image
+                                Name="PlayLogoBP"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Source="/Resources/Images/Play.png"
+                                Stretch="UniformToFill" />
+                            <Image
+                                Name="PauseLogoBP"
+                                RenderOptions.BitmapScalingMode="HighQuality"
+                                Source="/Resources/Images/Pause.png"
+                                Stretch="UniformToFill"
+                                Visibility="Hidden" />
+                        </Grid>
+                        <Image
+                            Name="NextSongAlbumBP"
+                            Width="35"
+                            Height="35"
+                            Margin="15,0,0,0"
+                            Cursor="Hand"
+                            MouseLeftButtonUp="NextSongAlbum_MouseLeftButtonUp"
+                            RenderOptions.BitmapScalingMode="HighQuality"
+                            Source="/Resources/Images/skipr.png"
+                            Stretch="UniformToFill" />
+                    </StackPanel>
+
+                    <Slider
+                        Name="MediaSliderBP"
+                        Height="18"
+                        MaxWidth="1000"
+                        Margin="622,537,167,0"
+                        VerticalAlignment="Top"
+                        AutoToolTipPlacement="None"
+                        Foreground="{x:Null}"
+                        IsMoveToPointEnabled="True"
+                        Maximum="100"
+                        Minimum="0.8"
+                        MouseMove="SoundSlider_MouseMove"
+                        Orientation="Horizontal"
+                        RenderTransformOrigin="0.5,0.5"
+                        Style="{StaticResource Horizontal_Slider}"
+                        ValueChanged="MediaSlider_ValueChanged"
+                        Value="1">
+                        <Slider.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="2" ScaleY="2" />
+                                <SkewTransform />
+                                <RotateTransform />
+                                <TranslateTransform />
+                            </TransformGroup>
+                        </Slider.RenderTransform>
+
+                    </Slider>
+
+                    <Label
+                        Name="SongPositionBP"
+                        Width="44"
+                        Height="28"
+                        Margin="0,532,437,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Right"
+                        VerticalContentAlignment="Top"
+                        Background="{x:Null}"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Foreground="#CCFFFFFF">
+                        0:00
+                    </Label>
+
+                    <Label
+                        Name="SongDurationBP"
+                        Width="42"
+                        Height="28"
+                        Margin="0,533,36,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        VerticalContentAlignment="Top"
+                        Background="{x:Null}"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Foreground="White">
+                        4:52
+                    </Label>
+                </Grid>
+
+                <StackPanel Margin="444,89,85,71">
+
+                    <Grid MaxHeight="226" Margin="5,0,0,0">
+                        <Viewbox HorizontalAlignment="Left" VerticalAlignment="Top">
+                            <Label
+                                Name="BPTitle"
+                                HorizontalContentAlignment="Left"
+                                Background="{x:Null}"
+                                Content="XXXXXXXXX"
+                                FontSize="38"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Style="{DynamicResource Montserrat}" />
+                        </Viewbox>
+                        <Viewbox
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Top"
+                            Opacity="0.8">
+                            <Label
+                                Name="BPTitleB"
+                                HorizontalContentAlignment="Left"
+                                Background="{x:Null}"
+                                Content="XXXXXXXX"
+                                FontSize="38"
+                                FontWeight="Bold"
+                                Foreground="White"
+                                Style="{DynamicResource Montserrat}" />
+                        </Viewbox>
+                    </Grid>
+
+                    <Label
+                        Name="BPArtists"
+                        Margin="10,-15,0,0"
+                        VerticalAlignment="Top"
+                        HorizontalContentAlignment="Left"
+                        Content="PNL"
+                        FontSize="35"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Style="{DynamicResource Montserrat}" />
+
+                </StackPanel>
+
+
+                <Grid
+                    Name="PBVolumeG"
+                    Width="968"
+                    HorizontalAlignment="Right"
+                    Opacity="0">
+                    <ProgressBar
+                        Name="PBVolume"
+                        Width="48"
+                        Margin="0,48,29,343"
+                        HorizontalAlignment="Right"
+                        Background="#7F424242"
+                        BorderBrush="{x:Null}"
+                        Foreground="White"
+                        Orientation="Vertical"
+                        Visibility="Visible"
+                        Value="35" />
+                    <Border
+                        Width="50"
+                        Margin="0,47,28,341"
+                        HorizontalAlignment="Right"
+                        BorderBrush="White"
+                        BorderThickness="2"
+                        CornerRadius="2" />
+                </Grid>
+            </Grid>
+
+            <!--  End BigPlayer  -->
+
+        </Grid>
+
+        <!--  Resize  -->
+
+        <Grid
+            Name="ResizeCorners"
+            Margin="0"
+            Panel.ZIndex="100000"
+            ClipToBounds="True"
+            MouseDown="ResizeCorners_MouseDown"
+            Visibility="Visible">
+            <Rectangle
+                Name="bottom"
+                Height="12"
+                Margin="17,0,19,0"
+                VerticalAlignment="Bottom"
+                Panel.ZIndex="1000"
+                Fill="#00000000"
+                MouseEnter="DisplayResizeCursor"
+                MouseLeave="ResetCursor"
+                PreviewMouseDown="Resize"
+                Stroke="{x:Null}" />
+            <Rectangle
+                Name="left"
+                Width="14"
+                Margin="-6,14,0,1"
+                HorizontalAlignment="Left"
+                Panel.ZIndex="1000"
+                Fill="Transparent"
+                MouseEnter="DisplayResizeCursor"
+                MouseLeave="ResetCursor"
+                PreviewMouseDown="Resize" />
+            <Rectangle
+                Name="right"
+                Width="14"
+                Margin="0,-1,-6,1"
+                HorizontalAlignment="Right"
+                Panel.ZIndex="1000"
+                Fill="Transparent"
+                MouseEnter="DisplayResizeCursor"
+                MouseLeave="ResetCursor"
+                PreviewMouseDown="Resize" />
+            <Rectangle
+                Name="topLeft"
+                Width="15"
+                Height="15"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Panel.ZIndex="1000"
+                Fill="Transparent"
+                MouseEnter="DisplayResizeCursor"
+                MouseLeave="ResetCursor"
+                PreviewMouseDown="Resize" />
+            <Rectangle
+                Name="bottomLeft"
+                Width="15"
+                Height="15"
+                Margin="1.25,0,0,1.25"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Bottom"
+                Panel.ZIndex="1000"
+                Fill="Transparent"
+                MouseEnter="DisplayResizeCursor"
+                MouseLeave="ResetCursor"
+                PreviewMouseDown="Resize" />
+            <Rectangle
+                Name="bottomRight"
+                Width="15"
+                Height="15"
+                Margin="0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Panel.ZIndex="1000"
+                Fill="Transparent"
+                MouseEnter="DisplayResizeCursor"
+                MouseLeave="ResetCursor"
+                PreviewMouseDown="Resize" />
+            <Rectangle
+                Name="top"
+                Height="15"
+                Margin="20,-1,11,0"
+                VerticalAlignment="Top"
+                Panel.ZIndex="1000"
+                AllowDrop="True"
+                Fill="Transparent"
+                MouseEnter="DisplayResizeCursor"
+                MouseLeave="ResetCursor"
+                PreviewMouseDown="Resize" />
+            <Rectangle
+                Name="topRight"
+                Width="15"
+                Height="15"
+                Margin="0,1.25,1.25,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Top"
+                Panel.ZIndex="1000"
+                Fill="Transparent"
+                MouseEnter="DisplayResizeCursor"
+                MouseLeave="ResetCursor"
+                PreviewMouseDown="Resize" />
+        </Grid>
+
+        <!--  End Resize  -->
+
+        <Grid
+            Name="LoadingSC"
+            MouseLeftButtonDown="AppBackground_MouseLeftButtonDown"
+            Visibility="Hidden">
+            <Rectangle
+                Fill="#FF141215"
+                RadiusX="3"
+                RadiusY="3" />
+            <Image
+                Margin="436,276,436,275"
+                Opacity="0.7"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                Source="/Resources/Images/library_logo_transparent.png">
+                <Image.Effect>
+                    <BlurEffect Radius="50" />
+                </Image.Effect>
+            </Image>
+            <Image
+                Margin="436,276,436,275"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                Source="/Resources/Images/library_logo_transparent.png" />
+            <ProgressBar
+                x:Name="LoadingPB"
+                Height="10"
+                Margin="428,374,428,0"
+                VerticalAlignment="Top"
+                Background="{x:Null}"
+                BorderBrush="{x:Null}"
+                Foreground="#FF4C78D9"
+                IsIndeterminate="True" />
+
+            <Label
+                Name="LoadingText"
+                Margin="0,580,0,5"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Bottom"
+                Background="{x:Null}"
+                FontSize="20"
+                Foreground="White"
+                Opacity="0.3"
+                Style="{DynamicResource Montserrat}">
+                Loading, please wait...
+            </Label>
+        </Grid>
+    </Grid>
+</Window>

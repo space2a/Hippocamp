@@ -1,0 +1,13 @@
+primaryColor:255 0 0
+secondaryColor:0 255 0
+tabrectangleColor:0 0 255
+accentColor:0 128 255
+regularText:150 50 80
+activeColor:128 0 255
+PUPprimaryColor:255 100 100
+PUPsecondaryColor:100 100 255
+logoprimaryColor:255 0 255
+logosecondaryColor:0 255 255
+playingbarColor:120 90 230
+valuebarColor:133 216 222
+valuebgbarColor:42 69 71

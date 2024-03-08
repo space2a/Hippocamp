@@ -1,0 +1,110 @@
+﻿<UserControl
+    x:Class="Re_Hippocamp.Pages.HomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="clr-namespace:Re_Hippocamp.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Re_Hippocamp.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    MinHeight="500"
+    mc:Ignorable="d">
+    <UserControl.Effect>
+        <BlurEffect Radius="0" />
+    </UserControl.Effect>
+    <Grid>
+        <Grid x:Name="Normal" Visibility="Hidden">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="290" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Label
+                Width="532"
+                Height="50"
+                Margin="10,29,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center"
+                FontSize="18"
+                Foreground="White"
+                Style="{DynamicResource Montserrat}">
+                Recently played albums
+            </Label>
+            <ScrollViewer
+                Margin="10,71,10,0"
+                HorizontalScrollBarVisibility="Hidden"
+                PreviewMouseWheel="ScrollViewer_PreviewMouseWheel"
+                VerticalScrollBarVisibility="Hidden">
+                <StackPanel
+                    Name="RecentArtists"
+                    VerticalAlignment="Top"
+                    Orientation="Horizontal" />
+            </ScrollViewer>
+            <Label
+                Name="TopText"
+                Grid.Row="1"
+                Width="542"
+                Height="41"
+                Margin="10,29,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Left"
+                VerticalContentAlignment="Center"
+                FontSize="18"
+                Foreground="White"
+                RenderTransformOrigin="0.5,0.683"
+                Style="{DynamicResource Montserrat}">
+                Top 10 played songs
+            </Label>
+            <ScrollViewer
+                Grid.Row="1"
+                Margin="10,78,10,0"
+                HorizontalScrollBarVisibility="Hidden"
+                VerticalScrollBarVisibility="Hidden">
+                <StackPanel Name="TopSongs">
+                    <controls:HippocampHomeSong />
+                    <controls:HippocampHomeSong />
+                    <controls:HippocampHomeSong />
+                    <controls:HippocampHomeSong />
+                    <controls:HippocampHomeSong />
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+        <Grid x:Name="Welcome">
+            <Label
+                Width="743"
+                Height="41"
+                Margin="0,268,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                FontSize="25"
+                Foreground="#CCFFFFFF"
+                RenderTransformOrigin="0.5,0.683"
+                Style="{DynamicResource Montserrat}">
+                Welcome to Hippocamp
+            </Label>
+
+            <Label
+                Width="781"
+                Height="41"
+                Margin="0,296,0,0"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                FontSize="22"
+                Foreground="#CCFFFFFF"
+                RenderTransformOrigin="0.5,0.683"
+                Style="{DynamicResource Montserrat}">
+                Explore your collection and start listening to your favorites songs !
+            </Label>
+            <controls:HippocampButton
+                x:Name="ExploreCollection"
+                Width="200"
+                Margin="300,338,301,255"
+                Text="Explore your collection" />
+        </Grid>
+    </Grid>
+</UserControl>

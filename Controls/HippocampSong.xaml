@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="Re_Hippocamp.Controls.HippocampSong"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Re_Hippocamp.Controls"
+             mc:Ignorable="d" Opacity="0.6" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave"
+             >
+    <Grid Height="55">
+        <Border Name="BG" Opacity="0.25" CornerRadius="2" Background="Transparent" Visibility="Visible">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="2" Color="Black" Opacity="0.32" BlurRadius="10"/>
+            </Border.Effect>
+        </Border>
+
+        <Border CornerRadius="5" x:Name="BGOutline" BorderBrush="White" Opacity="0.8" BorderThickness=".5" Visibility="Hidden"></Border>
+
+        <Label Name="Index" Content="255" HorizontalContentAlignment="Right" Margin="4,0,0,0" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" FontSize="20" Style="{DynamicResource Montserrat}" FontWeight="Normal" Background="{x:Null}" Width="43"/>
+        <Image x:Name="PlayIcon" Source="/Resources/Images/PlayEmpty.png" Margin="18,15,646,15" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+        <Image x:Name="PauseIcon" Source="/Resources/Images/PauseEmpty.png" Margin="18,16,649,16" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+
+        <Label Name="Name" Content="Au PD" BorderThickness="0" VerticalAlignment="Center" Foreground="White" FontSize="20" Style="{DynamicResource Montserrat}" FontWeight="Normal" Background="{x:Null}" Margin="60,0,337,0"/>
+
+        <Label Name="Artist" Opacity="0.8" Content="PNL" VerticalAlignment="Center" Foreground="#CCFFFFFF" FontSize="20" Style="{DynamicResource Montserrat}" FontWeight="Normal" Background="{x:Null}" Margin="360,0,0,0" HorizontalAlignment="Left" Width="203"/>
+
+        <Image Margin="0,16,79,12" RenderOptions.BitmapScalingMode="HighQuality" Source="/Resources/Images/FavoriteEmpty.png" HorizontalAlignment="Right" Width="84"></Image>
+        <Image Name="LikeImg" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,16,79,12" Source="/Resources/Images/FavoriteFilled.png" HorizontalAlignment="Right" Width="84"></Image>
+        <Rectangle Fill="Transparent" MouseLeftButtonUp="LikeImg_MouseLeftButtonUp" Margin="0,16,80,15" HorizontalAlignment="Right" Width="26"></Rectangle>
+        <Label x:Name="Length" Opacity="0.8" Content="4:07" Visibility="Visible" HorizontalContentAlignment="Right" VerticalAlignment="Center" Foreground="#CCFFFFFF" FontSize="20" Style="{DynamicResource Montserrat}" FontWeight="Normal" Background="{x:Null}" Margin="594,0,10,0"/>
+    </Grid>
+</UserControl>

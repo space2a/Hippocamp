@@ -1,0 +1,138 @@
+﻿<Window
+    x:Class="Re_Hippocamp.Windows.LoadingScreen"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Re_Hippocamp.Windows"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="Hippocamp"
+    Width="600"
+    Height="400"
+    MinWidth="550"
+    MinHeight="250"
+    AllowsTransparency="True"
+    Background="{x:Null}"
+    Icon="/Resources/Images/HippocampLogo.png"
+    MouseLeftButtonDown="Window_MouseLeftButtonUp"
+    Opacity="0.95"
+    ResizeMode="NoResize"
+    ShowInTaskbar="True"
+    WindowStartupLocation="CenterScreen"
+    WindowStyle="None"
+    mc:Ignorable="d">
+
+    <Grid Margin="26,19,26,17">
+        <Rectangle
+            Fill="#FF1C2C3E"
+            RadiusX="18"
+            RadiusY="18" />
+
+        <Grid Margin="0,0,0,37">
+
+            <MediaElement
+                x:Name="Loading"
+                Width="1124"
+                Height="806"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                IsMuted="True"
+                LoadedBehavior="Manual"
+                MediaEnded="Loading_MediaEnded"
+                Opacity="1"
+                Source="Resources/Videos/HippocampLoadingALPHA.mp4"
+                Stretch="Uniform"
+                UnloadedBehavior="Close">
+                <MediaElement.OpacityMask>
+                    <ImageBrush ImageSource="/Resources/Images/Neptune.png" Stretch="Uniform" />
+                </MediaElement.OpacityMask>
+            </MediaElement>
+
+        </Grid>
+
+        <Ellipse Name="Avatar" Margin="251,291,251,27">
+            <Ellipse.Fill>
+                <ImageBrush RenderOptions.BitmapScalingMode="HighQuality" Stretch="UniformToFill" />
+            </Ellipse.Fill>
+        </Ellipse>
+        <ProgressBar
+            Width="548"
+            Height="350"
+            Margin="0,4,0,0"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Top"
+            Background="#FF162331"
+            BorderBrush="#FF162331"
+            Foreground="#FF406794"
+            IsIndeterminate="True"
+            LargeChange="10"
+            Maximum="50"
+            Minimum="10"
+            Orientation="Horizontal"
+            SmallChange="10"
+            Value="100">
+            <ProgressBar.OpacityMask>
+                <ImageBrush
+                    ImageSource="/Resources/Images/LoadingOpacityMask.png"
+                    RenderOptions.BitmapScalingMode="Unspecified"
+                    Stretch="Uniform"
+                    TileMode="None" />
+            </ProgressBar.OpacityMask>
+        </ProgressBar>
+        <Border
+            BorderBrush="#FF1C2C3E"
+            BorderThickness="10"
+            CornerRadius="18" />
+
+
+        <Label
+            Margin="147,90,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="{x:Null}"
+            Content="Hippo"
+            FontFamily="MS PGothic"
+            FontSize="80"
+            FontWeight="Normal"
+            Foreground="White">
+            <Label.Effect>
+                <BlurEffect Radius="10" />
+            </Label.Effect>
+        </Label>
+        <Label
+            Margin="147,90,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Background="{x:Null}"
+            Content="Hippo"
+            FontFamily="MS PGothic"
+            FontSize="80"
+            FontWeight="Normal"
+            Foreground="White" />
+        <Label
+            Margin="229,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Background="{x:Null}"
+            Content="camp"
+            FontFamily="MS PGothic"
+            FontSize="80"
+            FontWeight="Normal"
+            Foreground="#FFFDFDFD">
+            <Label.Effect>
+                <BlurEffect Radius="10" />
+            </Label.Effect>
+        </Label>
+        <Label
+            Margin="229,0,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center"
+            Background="{x:Null}"
+            Content="camp"
+            FontFamily="MS PGothic"
+            FontSize="80"
+            FontWeight="Normal"
+            Foreground="#FFFDFDFD" />
+
+
+    </Grid>
+</Window>

@@ -1,0 +1,18 @@
+﻿<UserControl x:Class="Re_Hippocamp.Controls.HippocampComboxBox"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Re_Hippocamp.Controls"
+             mc:Ignorable="d" 
+             d:DesignWidth="800" ClipToBounds="False">
+    <Grid ClipToBounds="False">
+        <StackPanel>
+            <Grid Height="30">
+                <Border x:Name="BG" Background="#66000000" CornerRadius="3" MouseLeftButtonUp="BG_MouseLeftButtonUp" Height="30" VerticalAlignment="Top"/>
+                <Label Foreground="White" VerticalContentAlignment="Center" Name="Selected" MouseLeftButtonUp="BG_MouseLeftButtonUp" Background="{x:Null}" Style="{DynamicResource Montserrat}" FontSize="12"/>
+            </Grid>
+            <StackPanel Name="SP" Height="0" VerticalAlignment="Top" Margin="0,1,0,0"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="Re_Hippocamp.Controls.HippocampAlbum"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Re_Hippocamp.Controls"
+             mc:Ignorable="d" 
+             Cursor="Hand" MouseEnter="UserControl_MouseEnter" MouseLeave="UserControl_MouseLeave" >
+    <Grid>
+        <Grid x:Name="M" Height="192" Width="155">
+
+            <Grid MouseLeftButtonUp="UserControl_MouseLeftButtonUp" Height="210" VerticalAlignment="Top">
+                <Rectangle Name="BG" Opacity="0.3" Fill="Black" RadiusX="3.333" RadiusY="3.333" Margin="0,0,0,18">
+                </Rectangle>
+
+                <Rectangle RadiusX="3" RadiusY="3" Fill="#FF1B1B1B" Margin="12,12,12,67"/>
+                <Rectangle RadiusX="3" RadiusY="3" Name="AlbumCover2" Opacity="0.7" Margin="12,12,12,67">
+                    <Rectangle.Effect>
+                        <BlurEffect Radius="20"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Grid Margin="12,12,12,67" ClipToBounds="True">
+                    <Rectangle RadiusX="3" RadiusY="3" Name="AlbumCover1" ></Rectangle>
+                </Grid>
+                <Label Name="AlbumArtist" HorizontalContentAlignment="Left" VerticalContentAlignment="Top" FontSize="12.5" Style="{DynamicResource Montserrat}" FontWeight="UltraLight" Foreground="#99FFFFFF" Margin="1,160,10,0" Height="33" VerticalAlignment="Top">PNL</Label>
+
+                <TextBlock Name="AlbumName" Margin="5,146,0,0" Foreground="White" Style="{DynamicResource Montserrat}" VerticalAlignment="Top" FontSize="21" Height="37">Deux frères</TextBlock>
+
+                <Border Margin="0,0,4,22" Background="#4CFFFFFF" CornerRadius="2" HorizontalAlignment="Right" Width="32" Height="15" VerticalAlignment="Bottom"></Border>
+                <Label Name="SongCount" FontSize="12" Style="{DynamicResource Montserrat}" FontWeight="UltraLight" Foreground="#99000000" Margin="0,0,4,18" HorizontalContentAlignment="Center" HorizontalAlignment="Right" Width="32" Height="24" VerticalAlignment="Bottom">16</Label>
+
+            </Grid>
+            <Ellipse StrokeThickness="7" Stroke="#CCFFFFFF" Margin="38,40,37,71" Name="loading">
+                <Ellipse.OpacityMask>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="Black"/>
+                        <GradientStop Color="Transparent" Offset="0.5"/>
+                        <GradientStop Color="#FFD9D9D9" Offset="0.499"/>
+                    </LinearGradientBrush>
+                </Ellipse.OpacityMask>
+            </Ellipse>
+            <Grid x:Name="PlayGrid" Cursor="Arrow" Panel.ZIndex="100" MouseLeftButtonUp="PlayGrid_MouseLeftButtonUp" Height="210" VerticalAlignment="Top">
+                <Rectangle Cursor="Hand" Opacity="0.2" Margin="96,96,15,70" Fill="White" RenderOptions.BitmapScalingMode="HighQuality" RadiusX="8.167" RadiusY="8.167"/>
+                <Rectangle Opacity="0.7" x:Name="BGEllipseBLUR" StrokeThickness="10" Margin="93,94,12,68" Stroke="#FF333333" RadiusX="5" RadiusY="5">
+                    <Rectangle.Effect>
+                        <BlurEffect Radius="20"/>
+                    </Rectangle.Effect>
+                </Rectangle>
+                <Rectangle Cursor="Hand" Opacity="1" x:Name="BGEllipse" Margin="96,96,15,70" Fill="#FF1B1B1B" RenderOptions.BitmapScalingMode="HighQuality" RadiusX="4.667" RadiusY="4.667">
+                    <Rectangle.OpacityMask>
+                        <ImageBrush ImageSource="/Resources/Images/PlayAlbum.png"/>
+                    </Rectangle.OpacityMask>
+                </Rectangle>
+            </Grid>
+
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Re_Hippocamp.Controls.HippocampButton"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Re_Hippocamp.Controls" x:Name="root"
+             mc:Ignorable="d" Height="25" Width="60">
+    <Grid Cursor="Hand" MouseEnter="Rectangle_MouseEnter" MouseLeave="Rectangle_MouseLeave" Background="#00000000" MouseLeftButtonUp="Grid_MouseLeftButtonUp">
+        <Rectangle RadiusX="0.691" RadiusY="0.691" StrokeThickness="2" Stroke="#FF5277C7" Name="RcS"/>
+        <Rectangle  Fill="#FF5277C7" RadiusX="1.899" RadiusY="1.899" x:Name="Rc"></Rectangle>
+        <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="White" Height="13" Style="{DynamicResource Montserrat}" Text="{Binding Text, ElementName=root}" FontSize="11"></TextBlock>
+
+        <Rectangle Visibility="Hidden" x:Name="BinRec" Fill="#FFD01B1B" RenderOptions.BitmapScalingMode="HighQuality" Margin="4,2,4,1">
+            <Rectangle.OpacityMask>
+                <ImageBrush ImageSource="../Resources/Images/Bin.png" Stretch="Uniform"/>
+            </Rectangle.OpacityMask>
+        </Rectangle>
+    </Grid>
+</UserControl>
